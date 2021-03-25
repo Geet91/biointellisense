@@ -43,7 +43,7 @@ view: offloaded_files {
 
   }
 
-  dimension: time {
+  dimension: processing_time_unit {
     sql:
     {% if date_granularity._parameter_value == 'day' %}
       ${processing_date}
