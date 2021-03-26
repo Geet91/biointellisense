@@ -27,7 +27,8 @@ view: offloaded_files {
   }
 
   parameter: date_granularity {
-    type: unquoted
+    type: string
+
     allowed_value: {
       label: "Break down by Day"
       value: "day"
