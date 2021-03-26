@@ -74,6 +74,11 @@ view: sync_gaps {
     sql: ${TABLE}.sync_gap_seconds ;;
   }
 
+  dimension: sync_gap_minutes {
+    type:  number
+    sql:  ${sync_gap_seconds}/60 ;;
+  }
+
   dimension: sync_id {
     type: number
     sql: ${TABLE}.sync_id ;;
@@ -89,8 +94,13 @@ view: sync_gaps {
     drill_fields: []
   }
 
-  measure: average_sync_gap_seconds {
+  measure: sync_gap_length {
     type:  average
-    sql: ${sync_gap_seconds} ;;
+    sql:  ${sync_gap_minutes} ;;
+  }
+
+  measure: sync_file_count {
+    type:  average
+    sql:  ${file_count} ;;
   }
 }

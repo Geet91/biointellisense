@@ -31,3 +31,6 @@ explore: offloaded_files {
   #   relationship: one_to_many
   # }
 }
+
+
+explore: sync_gaps {}
