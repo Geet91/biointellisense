@@ -132,4 +132,9 @@ view: sync_gaps {
     type:  count_distinct
     sql:  ${user_id} ;;
   }
+
+  measure: lifespan_days {
+    type: number
+    sql: DATE_DIFF(${last_sync_date}, ${first_sync_date}) ;;
+  }
 }

@@ -41,7 +41,6 @@ view: offloaded_files {
       label: "Break down by Month"
       value: "month"
     }
-
   }
 
   dimension: processing_time_unit {
@@ -71,5 +70,10 @@ view: offloaded_files {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: lifespan {
+    type: number
+    sql:  TIMESTAMP_DIFF(MAX(${processing_raw}), MIN(${processing_raw}, DAY);;
   }
 }
