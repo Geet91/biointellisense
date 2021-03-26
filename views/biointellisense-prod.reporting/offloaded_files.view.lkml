@@ -56,7 +56,6 @@ view: offloaded_files {
     {% endif %};;
   }
 
-
   dimension: user_id {
     type: string
     sql: ${TABLE}.user_id ;;
@@ -72,8 +71,18 @@ view: offloaded_files {
     drill_fields: []
   }
 
+  measure: first_sync_date {
+    type:  date
+    sql: MIN(${processing_raw}) ;;
+  }
+
+  measure: last_sync_date {
+    type:  date
+    sql: MAX(${processing_raw}) ;;
+  }
+
   measure: lifespan {
     type: number
-    sql:  TIMESTAMP_DIFF(MAX(${processing_raw}), MIN(${processing_raw}, DAY);;
+    sql: DATE_DIFF(${last_sync_date}, ${first_sync_date}, DAY) ;;
   }
 }
