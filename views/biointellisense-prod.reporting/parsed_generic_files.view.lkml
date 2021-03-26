@@ -148,4 +148,42 @@ view: parsed_generic_files {
     type: count
     drill_fields: [filename]
   }
+
+  measure: first_sync {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: MIN(${processing_raw}) ;;
+  }
+
+  measure: last_sync {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: MAX(${processing_raw}) ;;
+  }
+
+  measure: is_alive {
+    type: yesno
+    sql: TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), MAX(${processing_raw}), DAY) > 1 ;;
+  }
+
+  measure: lifespan {
+    type: number
+    sql: TIMESTAMP_DIFF(MAX(${processing_raw}), MIN(${processing_raw}), DAY) ;;
+  }
 }
