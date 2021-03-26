@@ -34,3 +34,5 @@ explore: offloaded_files {
 
 
 explore: sync_gaps {}
+
+explore: parsed_generic_files {}
