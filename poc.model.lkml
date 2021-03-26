@@ -36,3 +36,11 @@ explore: offloaded_files {
 explore: sync_gaps {}
 
 explore: parsed_generic_files {}
+
+explore: device_lifespan_summary {
+  join: active_orders_20200326 {
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${device_lifespan_summary.user_id} = ${active_orders_20200326.biohub_id} ;;
+  }
+}
