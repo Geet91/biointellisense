@@ -84,6 +84,11 @@ view: sync_gaps {
     sql: ${TABLE}.sync_id ;;
   }
 
+  dimension: sync_history_order_key {
+    type:  string
+    sql: CONCAT(${user_id}, ${start_raw}) ;;
+  }
+
   dimension: user_id {
     type: string
     sql: ${TABLE}.user_id ;;
@@ -91,16 +96,40 @@ view: sync_gaps {
 
   measure: count {
     type: count
+    value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";"
     drill_fields: []
   }
 
-  measure: sync_gap_length {
-    type:  average
-    sql:  ${sync_gap_minutes} ;;
+  dimension: sync_gap_minutes_tier {
+    type:  tier
+    tiers: [0, 10, 30, 60, 120, 240, 480, 1000]
+    style:  integer
+    sql:  ${sync_gap_minutes};;
   }
 
-  measure: sync_file_count {
-    type:  average
+  measure: percent_of_total_count {
+    type:  percent_of_total
+    sql:  ${count} ;;
+  }
+
+  measure: total_files {
+    type:  sum
     sql:  ${file_count} ;;
+    value_format: "[>=1000000]0.00,,\"M\";[>=1000]0.00,\"K\";"
+  }
+
+  measure: first_sync_date {
+    type: date
+    sql:  MIN(${start_raw}) ;;
+  }
+
+  measure: last_sync_date {
+    type:  date
+    sql:  MAX(${end_raw}) ;;
+  }
+
+  measure: unique_bio_ids {
+    type:  count_distinct
+    sql:  ${user_id} ;;
   }
 }
