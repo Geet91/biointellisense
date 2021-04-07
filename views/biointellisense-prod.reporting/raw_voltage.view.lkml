@@ -12,6 +12,7 @@ view: raw_voltage {
     timeframes: [
       raw,
       time,
+      hour6,
       date,
       week,
       month,
