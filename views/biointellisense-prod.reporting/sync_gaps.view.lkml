@@ -22,6 +22,8 @@ view: sync_gaps {
     timeframes: [
       raw,
       time,
+      hour6,
+      hour12,
       date,
       week,
       month,
@@ -29,6 +31,7 @@ view: sync_gaps {
       year
     ]
     sql: ${TABLE}.end_time ;;
+    drill_fields: [parsed_generic_files.filename]
   }
 
   dimension: file_count {

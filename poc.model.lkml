@@ -33,7 +33,15 @@ explore: offloaded_files {
 }
 
 
-explore: sync_gaps {}
+explore: sync_gaps {
+  join: parsed_generic_files {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sync_gaps.user_id} = ${parsed_generic_files.user_id} and ${parsed_generic_files.processing_raw} between ${sync_gaps.start_raw} and ${sync_gaps.end_raw};;
+  }
+}
+
+explore: raw_voltage {}
 
 explore: parsed_generic_files {}
 
@@ -44,3 +52,13 @@ explore: device_lifespan_summary {
     sql_on: ${device_lifespan_summary.user_id} = ${active_orders_20200326.biohub_id} ;;
   }
 }
+
+explore: uat {
+  join: message_logs {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${uat.bio_id} = ${message_logs.user_id} ;;
+  }
+}
+
+explore: message_logs {}
