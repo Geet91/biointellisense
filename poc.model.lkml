@@ -34,16 +34,14 @@ explore: offloaded_files {
 
 
 explore: sync_gaps {
-  join: parsed_generic_files {
+  join: raw_voltage {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sync_gaps.user_id} = ${parsed_generic_files.user_id} and ${parsed_generic_files.processing_raw} between ${sync_gaps.start_raw} and ${sync_gaps.end_raw};;
+    sql_on: ${sync_gaps.user_id} = ${raw_voltage.user_id} and ${raw_voltage.processing_raw} between ${sync_gaps.start_raw} and ${sync_gaps.end_raw} ;;
   }
 }
 
-explore: raw_voltage {}
-
-explore: parsed_generic_files {}
+explore: consolidated_parsed_generic_files {}
 
 explore: device_lifespan_summary {
   join: active_orders_20200326 {
@@ -61,4 +59,14 @@ explore: uat {
   }
 }
 
-explore: message_logs {}
+explore: consolidated_message_logs {}
+
+explore: biohub_modem_sessions {
+  join: biohub_cell_signals {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${biohub_modem_sessions.environment} = ${biohub_cell_signals.environment} and ${biohub_modem_sessions.user_id} = ${biohub_cell_signals.user_id} and ${biohub_cell_signals.entry_timestamp_raw} between ${biohub_modem_sessions.start_raw} and ${biohub_modem_sessions.end_raw};;
+  }
+}
+
+explore: biohub_cell_signals {}

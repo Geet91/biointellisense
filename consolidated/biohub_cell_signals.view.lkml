@@ -1,6 +1,11 @@
-view: raw_voltage {
-  sql_table_name: `biointellisense-prod.user_data.RawVoltage`
+view: biohub_cell_signals {
+  sql_table_name: `biointellisense-prod.user_data_combined.BiohubCellSignals`
     ;;
+
+  dimension: cell_signal {
+    type: number
+    sql: ${TABLE}.cell_signal ;;
+  }
 
   dimension: device_id {
     type: string
@@ -12,7 +17,6 @@ view: raw_voltage {
     timeframes: [
       raw,
       time,
-      hour6,
       date,
       week,
       month,
@@ -20,6 +24,11 @@ view: raw_voltage {
       year
     ]
     sql: ${TABLE}.entry_timestamp ;;
+  }
+
+  dimension: environment {
+    type: string
+    sql: ${TABLE}.environment ;;
   }
 
   dimension: firmware_version {
@@ -55,14 +64,14 @@ view: raw_voltage {
     sql: ${TABLE}.processing_time ;;
   }
 
-  dimension: raw_voltage {
-    type: number
-    sql: ${TABLE}.raw_voltage ;;
-  }
-
   dimension: user_id {
     type: string
     sql: ${TABLE}.user_id ;;
+  }
+
+  dimension: display_user_id {
+    type: string
+    sql:concat(left(${TABLE}.environment, 1), ${TABLE}.user_id) ;;
   }
 
   measure: count {
@@ -70,8 +79,8 @@ view: raw_voltage {
     drill_fields: []
   }
 
-  measure: average_voltage {
+  measure: average_cell_signal {
     type: average
-    sql: ${raw_voltage} ;;
+    sql: ${cell_signal} ;;
   }
 }
