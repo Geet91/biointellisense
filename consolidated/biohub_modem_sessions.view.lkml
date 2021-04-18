@@ -86,6 +86,6 @@ view: biohub_modem_sessions {
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [environment, user_id, start_time, end_time, status]
   }
 }

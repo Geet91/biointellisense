@@ -17,6 +17,7 @@ view: biohub_cell_signals {
     timeframes: [
       raw,
       time,
+      hour,
       date,
       week,
       month,

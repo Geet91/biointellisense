@@ -70,3 +70,11 @@ explore: biohub_modem_sessions {
 }
 
 explore: biohub_cell_signals {}
+
+explore: cloud_observed_sync_gaps {
+  join: biohub_modem_sessions {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${biohub_modem_sessions.environment} = ${cloud_observed_sync_gaps.environment} and ${biohub_modem_sessions.user_id} = ${cloud_observed_sync_gaps.offloader_user_id} and ${biohub_modem_sessions.start_raw} between ${cloud_observed_sync_gaps.last_sync_end_raw} and ${cloud_observed_sync_gaps.start_raw} ;;
+  }
+}
