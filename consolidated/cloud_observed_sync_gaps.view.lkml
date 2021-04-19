@@ -135,4 +135,9 @@ view: cloud_observed_sync_gaps {
     type: running_total
     sql: ${count} ;;
   }
+
+  measure: last_sync_time {
+    type: date_time
+    sql: MAX(${TABLE}.end_time) ;;
+  }
 }
