@@ -130,4 +130,9 @@ view: cloud_observed_sync_gaps {
     type: percent_of_total
     drill_fields: [display_user_id, firmware_version, sync_gap_minutes, last_sync_end_time, start_time]
   }
+
+  measure: running_total_count {
+    type: running_total
+    sql: ${count} ;;
+  }
 }
