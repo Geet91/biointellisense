@@ -91,7 +91,17 @@ view: cloud_observed_sync_gaps {
 
   measure: count {
     type: count
-    drill_fields: [environment, user_id, offloader_user_id, firmware_version, sync_gap_minutes, last_sync_end_time, start_time, biohub_modem_sessions.count]
+    drill_fields: [
+      environment,
+      user_id,
+      offloader_user_id,
+      firmware_version,
+      sync_gap_minutes,
+      last_sync_end_time,
+      start_time,
+      offloader_cell_signal.average_cell_signal,
+      offloader_boot_events.count,
+      offloader_modem_timeouts.count]
   }
 
   dimension: sync_gap_minutes {

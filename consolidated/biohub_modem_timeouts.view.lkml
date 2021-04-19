@@ -1,11 +1,6 @@
-view: biohub_cell_signals {
-  sql_table_name: `biointellisense-prod.user_data_combined.BiohubCellSignals`
+view: biohub_modem_timeouts {
+  sql_table_name: `biointellisense-prod.user_data_combined.BiohubModemTimeouts`
     ;;
-
-  dimension: cell_signal {
-    type: number
-    sql: ${TABLE}.cell_signal ;;
-  }
 
   dimension: device_id {
     type: string
@@ -17,7 +12,6 @@ view: biohub_cell_signals {
     timeframes: [
       raw,
       time,
-      hour,
       date,
       week,
       month,
@@ -70,19 +64,9 @@ view: biohub_cell_signals {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: display_user_id {
-    type: string
-    sql:concat(left(${TABLE}.environment, 1), ${TABLE}.user_id) ;;
-  }
-
   measure: count {
-    type: count
-    drill_fields: []
-  }
-
-  measure: average_cell_signal {
-    type: average
-    sql: ${cell_signal} ;;
-    drill_fields: [entry_timestamp_time, cell_signal]
+    type: count_distinct
+    sql: ${entry_timestamp_time} ;;
+    drill_fields: [user_id, device_id, entry_timestamp_time]
   }
 }

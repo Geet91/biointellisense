@@ -72,9 +72,27 @@ explore: biohub_modem_sessions {
 explore: biohub_cell_signals {}
 
 explore: cloud_observed_sync_gaps {
-  join: biohub_modem_sessions {
+  # join: offloader_boot_events {
+  #   from: boot_events
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${cloud_observed_sync_gaps.environment} = ${offloader_boot_events.environment} and ${cloud_observed_sync_gaps.offloader_user_id} = ${offloader_boot_events.user_id} and ${offloader_boot_events.entry_timestamp_raw} between ${cloud_observed_sync_gaps.last_sync_end_raw} and ${cloud_observed_sync_gaps.start_raw};;
+  # }
+
+  # join: offloader_modem_timeouts {
+  #   from: biohub_modem_timeouts
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${cloud_observed_sync_gaps.environment} = ${offloader_modem_timeouts.environment} and ${cloud_observed_sync_gaps.offloader_user_id} = ${offloader_modem_timeouts.user_id} and ${offloader_boot_events.entry_timestamp_raw} between ${cloud_observed_sync_gaps.last_sync_end_raw} and ${cloud_observed_sync_gaps.start_raw} ;;
+  # }
+
+  join: offloader_cell_signal {
+    from: biohub_cell_signals
     type: left_outer
     relationship: one_to_many
-    sql_on: ${biohub_modem_sessions.environment} = ${cloud_observed_sync_gaps.environment} and ${biohub_modem_sessions.user_id} = ${cloud_observed_sync_gaps.offloader_user_id} and ${biohub_modem_sessions.start_raw} between ${cloud_observed_sync_gaps.last_sync_end_raw} and ${cloud_observed_sync_gaps.start_raw} ;;
+    fields: [entry_timestamp_time, cell_signal, average_cell_signal]
+    sql_on: ${cloud_observed_sync_gaps.environment} = ${offloader_cell_signal.environment} and ${cloud_observed_sync_gaps.offloader_user_id} = ${offloader_cell_signal.user_id} and ${offloader_cell_signal.entry_timestamp_raw} between timestamp_sub(${cloud_observed_sync_gaps.last_sync_end_raw}, interval 5 minute) and timestamp_add(${cloud_observed_sync_gaps.start_raw}, interval 5 minute) ;;
   }
 }
+
+explore: boot_events {}

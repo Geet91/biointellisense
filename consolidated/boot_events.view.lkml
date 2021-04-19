@@ -1,10 +1,10 @@
-view: biohub_cell_signals {
-  sql_table_name: `biointellisense-prod.user_data_combined.BiohubCellSignals`
+view: boot_events {
+  sql_table_name: `biointellisense-prod.user_data_combined.BootEvents`
     ;;
 
-  dimension: cell_signal {
+  dimension: boot_count {
     type: number
-    sql: ${TABLE}.cell_signal ;;
+    sql: ${TABLE}.boot_count ;;
   }
 
   dimension: device_id {
@@ -17,7 +17,6 @@ view: biohub_cell_signals {
     timeframes: [
       raw,
       time,
-      hour,
       date,
       week,
       month,
@@ -70,19 +69,9 @@ view: biohub_cell_signals {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: display_user_id {
-    type: string
-    sql:concat(left(${TABLE}.environment, 1), ${TABLE}.user_id) ;;
-  }
-
   measure: count {
-    type: count
-    drill_fields: []
-  }
-
-  measure: average_cell_signal {
-    type: average
-    sql: ${cell_signal} ;;
-    drill_fields: [entry_timestamp_time, cell_signal]
+    type: count_distinct
+    sql: ${boot_count} ;;
+    drill_fields: [environment, user_id, firmware_version, entry_timestamp_time, boot_count]
   }
 }
