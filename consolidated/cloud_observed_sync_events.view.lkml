@@ -74,4 +74,9 @@ view: cloud_observed_sync_events {
     type: count
     drill_fields: []
   }
+
+  measure: percent_of_total {
+    type: percent_of_total
+    drill_fields: []
+  }
 }

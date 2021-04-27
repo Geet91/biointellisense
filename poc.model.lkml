@@ -90,7 +90,16 @@ explore: cloud_observed_sync_gaps {
     from: biohub_cell_signals
     type: left_outer
     relationship: one_to_many
-    fields: [entry_timestamp_time, cell_signal, average_cell_signal]
+    fields: [
+        entry_timestamp_time,
+        cell_signal,
+        average_cell_signal,
+        min_cell_signal,
+        25p_cell_signal,
+        median_cell_signal,
+        75p_cell_signal,
+        max_cell_signal
+      ]
     sql_on: ${cloud_observed_sync_gaps.environment} = ${offloader_cell_signal.environment} and ${cloud_observed_sync_gaps.offloader_user_id} = ${offloader_cell_signal.user_id} and ${offloader_cell_signal.entry_timestamp_raw} between timestamp_sub(${cloud_observed_sync_gaps.last_sync_end_raw}, interval 5 minute) and timestamp_add(${cloud_observed_sync_gaps.start_raw}, interval 5 minute) ;;
   }
 }

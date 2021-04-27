@@ -85,4 +85,31 @@ view: biohub_cell_signals {
     sql: ${cell_signal} ;;
     drill_fields: [entry_timestamp_time, cell_signal]
   }
+
+  measure: min_cell_signal {
+    type: min
+    sql: ${cell_signal} ;;
+  }
+
+  measure: 25p_cell_signal {
+    type: percentile
+    percentile: 25
+    sql: ${cell_signal} ;;
+  }
+
+  measure: median_cell_signal {
+    type: median
+    sql: ${cell_signal} ;;
+  }
+
+  measure: 75p_cell_signal {
+    type: percentile
+    percentile: 75
+    sql: ${cell_signal} ;;
+  }
+
+  measure: max_cell_signal {
+    type: max
+    sql: ${cell_signal} ;;
+  }
 }
