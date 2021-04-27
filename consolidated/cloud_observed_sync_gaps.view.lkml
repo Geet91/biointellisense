@@ -74,6 +74,17 @@ view: cloud_observed_sync_gaps {
     sql: ${TABLE}.start_time ;;
   }
 
+  dimension_group: duration {
+    type: duration
+    sql_start: ${start_raw} ;;
+    sql_end: ${end_raw} ;;
+    intervals: [
+      hour,
+      minute,
+      second
+    ]
+  }
+
   dimension: sync_gap_seconds {
     type: number
     sql: ${TABLE}.sync_gap_seconds ;;
@@ -128,7 +139,7 @@ view: cloud_observed_sync_gaps {
 
   measure: percent_of_total {
     type: percent_of_total
-    drill_fields: [display_user_id, firmware_version, sync_gap_minutes, last_sync_end_time, start_time]
+    drill_fields: []
   }
 
   measure: running_total_count {
