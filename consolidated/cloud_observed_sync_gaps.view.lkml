@@ -122,9 +122,16 @@ view: cloud_observed_sync_gaps {
 
   dimension: sync_gap_minutes_tier {
     type: tier
-    tiers: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+    tiers: [0, 10, 15, 20, 25, 30, 35, 40, 50, 60]
     style: integer
     sql: ${sync_gap_minutes} ;;
+  }
+
+  dimension: sync_duration_seconds_tier {
+    type:  tier
+    tiers: [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+    style:  integer
+    sql: ${seconds_duration} ;;
   }
 
   dimension: display_user_id {
