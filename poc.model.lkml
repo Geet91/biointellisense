@@ -70,3 +70,5 @@ explore: cloud_observed_sync_gaps {
 explore: boot_events {}
 
 explore: device_life {}
+
+explore: device_days {}
