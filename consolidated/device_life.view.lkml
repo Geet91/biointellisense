@@ -114,4 +114,10 @@ view: device_life {
     type: average
     sql: ${voltage} ;;
   }
+
+  measure: total_voltage_drop {
+    type: number
+    sql: MAX(${voltage}) - MIN(${voltage}) ;;
+    drill_fields: [entry_date, voltage, voltage_drop]
+  }
 }

@@ -71,6 +71,8 @@ explore: boot_events {}
 
 explore: device_life {}
 
+explore: total_device_life {}
+
 explore: device_days {}
 
 explore: consolidated_unified_binary_entries {}
