@@ -1,29 +1,15 @@
-view: consolidated_message_logs {
-  sql_table_name: `biointellisense-prod.user_data_combined.MessageLogs`
+view: consolidated_unified_binary_entries {
+  sql_table_name: `biointellisense-prod.user_data_combined.UnifiedBinaryEntries`
     ;;
-
-  dimension: category {
-    type: string
-    sql: ${TABLE}.category ;;
-  }
 
   dimension: device_id {
     type: string
     sql: ${TABLE}.device_id ;;
   }
 
-  dimension_group: entry_timestamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.entry_timestamp ;;
+  dimension: entry_type {
+    type: string
+    sql: ${TABLE}.entry_type ;;
   }
 
   dimension: environment {
@@ -34,30 +20,6 @@ view: consolidated_message_logs {
   dimension: firmware_version {
     type: string
     sql: ${TABLE}.firmware_version ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${TABLE}.name ;;
-  }
-
-  dimension: params {
-    type: string
-    sql: ${TABLE}.params ;;
-  }
-
-  dimension_group: partition {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.partition_time ;;
   }
 
   dimension_group: processing {
@@ -74,11 +36,6 @@ view: consolidated_message_logs {
     sql: ${TABLE}.processing_time ;;
   }
 
-  dimension: severity {
-    type: string
-    sql: ${TABLE}.severity ;;
-  }
-
   dimension_group: sync_timestamp {
     type: time
     timeframes: [
@@ -93,19 +50,23 @@ view: consolidated_message_logs {
     sql: ${TABLE}.sync_timestamp ;;
   }
 
-  dimension: system_timestamp {
-    type: number
-    sql: ${TABLE}.system_timestamp ;;
-  }
-
   dimension: time_drift_offset {
     type: number
     sql: ${TABLE}.time_drift_offset ;;
   }
 
-  dimension: timezone {
-    type: number
-    sql: ${TABLE}.timezone ;;
+  dimension_group: timestamp {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.timestamp ;;
   }
 
   dimension: user_id {
@@ -132,13 +93,13 @@ view: consolidated_message_logs {
       minute,
       second
     ]
-    sql_start: ${entry_timestamp_raw} ;;
+    sql_start: ${timestamp_raw} ;;
     sql_end: ${processing_raw} ;;
   }
 
   measure: count {
     type: count
-    drill_fields: [name]
+    drill_fields: []
   }
 
   measure: avg_system_lag_minutes {
